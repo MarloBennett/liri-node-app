@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MarloBennett/liri-node-app#readme",
   "dependencies": {
+    "request": "^2.75.0",
     "twitter": "^1.4.0"
   }
 }
