@@ -2,6 +2,8 @@
 var twitter = require("twitter");
 //require request npm
 var request = require("request");
+//require spotify npm
+var spotify = require("spotify");
 
 //require keys file with twitter info
 var getTwitterKeys = require("./keys.js");
@@ -62,4 +64,34 @@ if (process.argv[2] === "movie-this") {
 			console.log("Rotten Tomatoes URL: " + JSON.parse(body)["tomatoURL"]);
 		}
 	});
+}
+
+if (process.argv[2] === "spotify-this-song") {
+
+	var songQueryUrl = "https://api.spotify.com/v1/search?query=" + searchTerm + "&offset=20&limit=20&type=track";
+
+	if (!process.argv[3]) {
+		songQueryUrl = "https://api.spotify.com/v1/search?q=track%3Athe+sign+artist%3Aace+of+base&type=track,artist";
+	}
+
+	spotify.get(songQueryUrl, function(err, data) {
+    if (err) {
+        console.log(err);
+    }
+ 	else {
+ 		for (var i = 0; i < data.tracks.items.length; i++) {
+ 			
+ 				for (var j = 0; j < data.tracks.items[i].artists.length; j++) {
+ 					console.log("Artist: " + data.tracks.items[i].artists[j].name);
+ 				}
+ 				console.log("Song name: " + data.tracks.items[i].name);
+ 				console.log("Album: " + data.tracks.items[i].album.name);
+ 				console.log("Preview URL: " + data.tracks.items[i].preview_url);
+ 		}
+ 		//console.log(data);
+ 		
+ 	}
+    // Do something with 'data' 
+});
+
 }
