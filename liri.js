@@ -73,7 +73,7 @@ function twitterFunc() {
 function omdbFunc() {
 
 	//if there is no index 3, sub in this query
-	if (!process.argv[3]) {
+	if (!searchTerm) {
 		searchTerm = "Mr. Nobody";
 	}
 
