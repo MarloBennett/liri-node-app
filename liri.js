@@ -10,10 +10,13 @@ var fs = require("fs");
 //require keys file with twitter info
 var getTwitterKeys = require("./keys.js");
 
-//make variable for user-entered search term
+//make variable for user-entered search term and command
 var searchTerm = process.argv[3];
+var doThis = process.argv[2];
 
-//variable for movie search
+var cmdLineArgs = process.argv;
+
+//variable for searches
 var movieQueryURL;
 var songQueryUrl;
 
@@ -25,7 +28,7 @@ var getMyTweets = new twitter({
   	access_token_secret: getTwitterKeys.twitterKeys.access_token_secret
 });
 
-switch(process.argv[2]) {
+switch(doThis) {
 	case "my-tweets": twitterFunc();
 		break;
 	case "movie-this": omdbFunc();
@@ -36,9 +39,10 @@ switch(process.argv[2]) {
 
 //if user passes my-tweets parameter
 function twitterFunc() {
-	//if (process.argv[2] === "my-tweets") {
+
 		//find my twitter handle and put in a variable
 		var params = {screen_name: "marloinaustin"};
+		
 		//access object with twitter keys and get entries from timeline
 		getMyTweets.get("statuses/user_timeline", params, function(error, tweets, response) {
 			  if (!error) {
@@ -49,12 +53,10 @@ function twitterFunc() {
 			  }
 		  }
 		});
-	//};
 };
 
 //if user passes movie-this parameter
 function omdbFunc() {
-	//if (process.argv[2] === "movie-this") {
 
 		//if there is no index 3, sub in this query
 		if (!process.argv[3]) {
@@ -79,11 +81,9 @@ function omdbFunc() {
 				console.log("Rotten Tomatoes URL: " + JSON.parse(body)["tomatoURL"]);
 			}
 		});
-	//};
 };
 
 function spotifyFunc() {
-	//if (process.argv[2] === "spotify-this-song") {
 
 		if (!process.argv[3]) {
 			//URL given by spotify API to search for artist and track - returns a bad result. just set this to search for the track title, as in the regular search. songQueryUrl = "https://api.spotify.com/v1/search?q=track%3Athe+sign+artist%3Aace+of+base&type=track,artist";
@@ -108,14 +108,12 @@ function spotifyFunc() {
 	 				console.log("Preview URL: " + data.tracks.items[i].preview_url);
 	 		}
 	 	//console.log(data);
-	 	console.log(songQueryUrl);	
+	 	//console.log(songQueryUrl);	
 	 	}
 	});
-	//};
 };
 
-/*
-if (process.argv[2] === "do-what-it-says") {
+if (doThis === "do-what-it-says") {
 
 	fs.readFile("random.txt", "utf8", function(err,data) {
 
@@ -125,9 +123,14 @@ if (process.argv[2] === "do-what-it-says") {
        		console.log(err);
     	}
 		else {
-			for (var k = 0; k < output.length; k++) {
-				console.log(output[k]);
-			}
+			//for (var k = 0; k < output.length; k++) {
+				doThis = output[0];
+				searchTerm = output[1];
+				cmdLineArgs[2] = doThis;
+				cmdLineArgs[3] = searchTerm;
+				console.log(doThis);
+				console.log(searchTerm);
+			//}
 		}
 	});
-}*/
+};
