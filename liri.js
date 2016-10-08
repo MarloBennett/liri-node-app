@@ -13,6 +13,7 @@ var searchTerm = process.argv[3];
 
 //variable for movie search
 var movieQueryURL;
+var songQueryUrl;
 
 //pull in twitter API keys
 var getMyTweets = new twitter({
@@ -52,7 +53,7 @@ if (process.argv[2] === "movie-this") {
 	request(movieQueryURL, function(error, response, body) {
 		if (!error && response.statusCode === 200) {
 
-			console.log(body);
+			//console.log(body);
 			console.log("Movie title: " + JSON.parse(body)["Title"]);
 			console.log("Release year: " + JSON.parse(body)["Year"]);
 			console.log("IMDB rating: " + JSON.parse(body)["imdbRating"]);
@@ -68,11 +69,13 @@ if (process.argv[2] === "movie-this") {
 
 if (process.argv[2] === "spotify-this-song") {
 
-	var songQueryUrl = "https://api.spotify.com/v1/search?query=" + searchTerm + "&offset=20&limit=20&type=track";
-
+	
 	if (!process.argv[3]) {
-		songQueryUrl = "https://api.spotify.com/v1/search?q=track%3Athe+sign+artist%3Aace+of+base&type=track,artist";
+		//URL given by spotify API to search for artist and track - returns a bad result. just set this to search for the track title, as in the regular search. songQueryUrl = "https://api.spotify.com/v1/search?q=track%3Athe+sign+artist%3Aace+of+base&type=track,artist";
+		searchTerm = "The Sign";
 	}
+
+	songQueryUrl = "https://api.spotify.com/v1/search?query=" + searchTerm + "&offset=20&limit=20&type=track";
 
 	spotify.get(songQueryUrl, function(err, data) {
     if (err) {
@@ -82,16 +85,16 @@ if (process.argv[2] === "spotify-this-song") {
  		for (var i = 0; i < data.tracks.items.length; i++) {
  			
  				for (var j = 0; j < data.tracks.items[i].artists.length; j++) {
+ 					console.log("");
  					console.log("Artist: " + data.tracks.items[i].artists[j].name);
  				}
  				console.log("Song name: " + data.tracks.items[i].name);
  				console.log("Album: " + data.tracks.items[i].album.name);
  				console.log("Preview URL: " + data.tracks.items[i].preview_url);
  		}
- 		//console.log(data);
- 		
+ 	//console.log(data);
+ 	console.log(songQueryUrl);	
  	}
-    // Do something with 'data' 
 });
 
 }
