@@ -62,6 +62,7 @@ function twitterFunc() {
 		if (!error) {
 		//loop through response and pull only two pieces of info. stop at 20.
 			for (var t = 0; t < 20; t++) {
+				console.log("");
 			  	console.log(tweets[t].created_at);
 			  	console.log(tweets[t].text);
 			}
@@ -100,8 +101,8 @@ function omdbFunc() {
 function spotifyFunc() {
 
 	if (!searchTerm) {
-		//URL given by spotify API to search for artist and track - returns a bad result. just set this to search for the track title, as in the regular search. songQueryUrl = "https://api.spotify.com/v1/search?q=track%3Athe+sign+artist%3Aace+of+base&type=track,artist";
-		searchTerm = "The Sign";
+		
+		searchTerm = "Ace of Base - The Sign";
 	}
 
 	songQueryUrl = "https://api.spotify.com/v1/search?query=" + searchTerm + "&offset=20&limit=20&type=track";
