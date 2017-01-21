@@ -14,4 +14,6 @@ Technologies used:
 * JavaScript
 * Node.js
 
+Video: https://www.screencast.com/t/kTWKr889j
+
 *Created as part of the The Coding Bootcamp at UT Austin.*
